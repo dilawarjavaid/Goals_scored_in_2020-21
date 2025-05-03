@@ -21,3 +21,12 @@ data = data[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG']]
 # Calculate total goals scored by each team (home and away)
 data['TotalHomeGoals'] = data.groupby('HomeTeam')['FTHG'].transform('sum')
 data['TotalAwayGoals'] = data.groupby('AwayTeam')['FTAG'].transform('sum')
+
+
+# Aggregate the total goals
+total_goals = data[['HomeTeam', 'TotalHomeGoals']].drop_duplicates().rename(columns={'HomeTeam': 'Team', 'TotalHomeGoals': 'HomeGoals'})
+total_goals = total_goals.merge(data[['AwayTeam', 'TotalAwayGoals']].drop_duplicates().rename(columns={'AwayTeam': 'Team', 'TotalAwayGoals': 'AwayGoals'}), on='Team')
+total_goals['TotalGoals'] = total_goals['HomeGoals'] + total_goals['AwayGoals']
+
+# Sort teams by total goals scored
+total_goals = total_goals.sort_values(by='TotalGoals', ascending=False)
