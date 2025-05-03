@@ -30,3 +30,12 @@ total_goals['TotalGoals'] = total_goals['HomeGoals'] + total_goals['AwayGoals']
 
 # Sort teams by total goals scored
 total_goals = total_goals.sort_values(by='TotalGoals', ascending=False)
+
+# Step 4: Data Visualization
+# Plot total goals scored by each team
+plt.figure(figsize=(10, 8))
+sns.barplot(x='TotalGoals', y='Team', data=total_goals, palette='viridis')
+plt.title('Total Goals Scored by Each Team in the 2020/2021 Season')
+plt.xlabel('Total Goals')
+plt.ylabel('Team')
+plt.show()
